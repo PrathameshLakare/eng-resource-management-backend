@@ -34,7 +34,9 @@ app.post("/api/auth/login", async (req, res) => {
       { id: user._id, role: user.role },
       process.env.JWT_SECRET
     );
-    res.json({ token, user });
+
+    const { password: pser, ...userWithoutPassword } = user._doc;
+    res.json({ token, user: userWithoutPassword });
   } catch (error) {
     res.status(500).json({ msg: "Server error", error: error.message });
   }
@@ -44,7 +46,10 @@ app.post("/api/auth/login", async (req, res) => {
 app.get("/api/auth/profile", verifyToken, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
-    res.json(user);
+    if (!user) return res.status(404).json({ msg: "User not found" });
+
+    const { password, ...userWithoutPassword } = user._doc;
+    res.json(userWithoutPassword);
   } catch (error) {
     res.status(500).json({ msg: "Server error", error: error.message });
   }
