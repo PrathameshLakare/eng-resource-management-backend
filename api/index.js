@@ -141,10 +141,15 @@ app.post("/api/projects", verifyToken, async (req, res) => {
 //Get project by id
 app.get("/api/projects/:id", verifyToken, async (req, res) => {
   try {
-    const project = await Project.findById(req.params.id);
+    const project = await Project.findById(req.params.id).populate(
+      "managerId",
+      "name email"
+    );
+
     if (!project) {
       return res.status(404).json({ msg: "Project not found" });
     }
+
     res.json(project);
   } catch (error) {
     res.status(500).json({ msg: "Server error", error: error.message });
