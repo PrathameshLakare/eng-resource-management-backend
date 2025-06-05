@@ -112,6 +112,37 @@ app.get("/api/engineers/:id/capacity", async (req, res) => {
   }
 });
 
+// Get all engineers with capacity info included
+app.get("/api/engineers/with-capacity", async (req, res) => {
+  try {
+    const engineers = await User.find({ role: "engineer" });
+
+    const engineersWithCapacity = await Promise.all(
+      engineers.map(async (engineer) => {
+        const assignments = await Assignment.find({ engineerId: engineer._id });
+        const totalAllocated = assignments.reduce(
+          (sum, a) => sum + a.allocationPercentage,
+          0
+        );
+
+        return {
+          _id: engineer._id,
+          name: engineer.name,
+          email: engineer.email,
+          skills: engineer.skills,
+          seniority: engineer.seniority,
+          maxCapacity: engineer.maxCapacity,
+          availableCapacity: engineer.maxCapacity - totalAllocated,
+        };
+      })
+    );
+
+    res.json(engineersWithCapacity);
+  } catch (error) {
+    res.status(500).json({ msg: "Server error", error: error.message });
+  }
+});
+
 //Projects routes:
 
 //Get all projects
