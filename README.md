@@ -23,11 +23,15 @@ npm install
 npm run dev
 ```
 
+You can also do `node api/index.js`
+
 ### 🧪 Load Sample Data (Optional)
 
 ```bash
 npm run seed
 ```
+
+You can also do `node api/seed/seed.js`
 
 ## 🔄 API Endpoints
 
