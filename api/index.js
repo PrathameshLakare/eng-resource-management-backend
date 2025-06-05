@@ -234,7 +234,10 @@ app.get("/api/projects/:id", verifyToken, async (req, res) => {
 // Get all assignments
 app.get("/api/assignments", verifyToken, async (req, res) => {
   try {
-    const assignments = await Assignment.find();
+    const assignments = await Assignment.find()
+      .populate("projectId")
+      .populate("engineerId", "-password");
+
     res.json(assignments);
   } catch (error) {
     res.status(500).json({ msg: "Server error", error: error.message });
