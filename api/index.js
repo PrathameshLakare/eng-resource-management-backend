@@ -11,7 +11,7 @@ const Project = require("./models/Project");
 const Assignment = require("./models/Assignment");
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: [process.env.FRONTEND_URL, "http://localhost:5173"] }));
 initializeDatabase();
 
 app.get("/", (req, res) => {
