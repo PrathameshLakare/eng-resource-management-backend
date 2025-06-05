@@ -55,6 +55,31 @@ app.get("/api/auth/profile", verifyToken, async (req, res) => {
   }
 });
 
+// Update profile details
+app.post("/api/auth/profile", verifyToken, async (req, res) => {
+  try {
+    const updates = req.body;
+
+    if (updates.password) {
+      return res.status(400).json({ msg: "Password cannot be updated here." });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user.id,
+      { $set: updates },
+      { new: true }
+    ).select("-password");
+
+    if (!updatedUser) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    res.json(updatedUser);
+  } catch (error) {
+    res.status(500).json({ msg: "Server error", error: error.message });
+  }
+});
+
 //Engineers routes:
 
 //Get all engineers
