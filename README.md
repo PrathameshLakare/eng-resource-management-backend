@@ -1,7 +1,5 @@
 # eng-resource-management-backend (ERMPro)
 
-# eng-resource-management-backend (ERMPro)
-
 A simple Node.js + Express.js backend for the Engineering Resource Management System.  
 This server handles authentication, project and engineer management, and assignment tracking.
 
