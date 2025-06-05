@@ -138,6 +138,55 @@ app.post("/api/projects", verifyToken, async (req, res) => {
   }
 });
 
+// Update Project by ID
+app.post("/api/projects/:id", verifyToken, async (req, res) => {
+  try {
+    if (req.user.role !== "manager") {
+      return res
+        .status(403)
+        .json({ msg: "Access denied. Only managers can update projects." });
+    }
+
+    const {
+      name,
+      description,
+      startDate,
+      endDate,
+      requiredSkills,
+      teamSize,
+      status,
+    } = req.body;
+
+    const project = await Project.findById(req.params.id);
+
+    if (!project) {
+      return res.status(404).json({ msg: "Project not found" });
+    }
+
+    // Optional: Check if the managerId matches the logged-in manager's id
+    if (project.managerId.toString() !== req.user.id) {
+      return res
+        .status(403)
+        .json({ msg: "You can only update your own projects." });
+    }
+
+    // Update fields
+    project.name = name ?? project.name;
+    project.description = description ?? project.description;
+    project.startDate = startDate ?? project.startDate;
+    project.endDate = endDate ?? project.endDate;
+    project.requiredSkills = requiredSkills ?? project.requiredSkills;
+    project.teamSize = teamSize ?? project.teamSize;
+    project.status = status ?? project.status;
+
+    const updatedProject = await project.save();
+
+    res.json(updatedProject);
+  } catch (error) {
+    res.status(500).json({ msg: "Server error", error: error.message });
+  }
+});
+
 //Get project by id
 app.get("/api/projects/:id", verifyToken, async (req, res) => {
   try {
@@ -161,6 +210,19 @@ app.get("/api/projects/:id", verifyToken, async (req, res) => {
 app.get("/api/assignments", verifyToken, async (req, res) => {
   try {
     const assignments = await Assignment.find();
+    res.json(assignments);
+  } catch (error) {
+    res.status(500).json({ msg: "Server error", error: error.message });
+  }
+});
+
+// Get assignments by engineer id
+app.get("/api/assignments/me", verifyToken, async (req, res) => {
+  try {
+    const engineerId = req.user.id;
+    const assignments = await Assignment.find({ engineerId }).populate(
+      "projectId"
+    );
     res.json(assignments);
   } catch (error) {
     res.status(500).json({ msg: "Server error", error: error.message });
