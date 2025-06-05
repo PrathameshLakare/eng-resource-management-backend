@@ -106,7 +106,7 @@ async function seed() {
     {
       engineerId: eng1._id,
       projectId: project1._id,
-      allocationPercentage: 80,
+      allocationPercentage: 20,
       startDate: new Date(),
       endDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
       role: "Frontend Developer",
@@ -114,7 +114,7 @@ async function seed() {
     {
       engineerId: eng2._id,
       projectId: project2._id,
-      allocationPercentage: 50,
+      allocationPercentage: 20,
       startDate: new Date(),
       endDate: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000),
       role: "Backend Developer",
@@ -122,7 +122,7 @@ async function seed() {
     {
       engineerId: eng3._id,
       projectId: project3._id,
-      allocationPercentage: 100,
+      allocationPercentage: 30,
       startDate: new Date(),
       endDate: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000),
       role: "Java Engineer",
@@ -130,7 +130,7 @@ async function seed() {
     {
       engineerId: eng4._id,
       projectId: project1._id,
-      allocationPercentage: 50,
+      allocationPercentage: 30,
       startDate: new Date(),
       endDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
       role: "React Support",
@@ -138,7 +138,7 @@ async function seed() {
     {
       engineerId: eng4._id,
       projectId: project2._id,
-      allocationPercentage: 25,
+      allocationPercentage: 100,
       startDate: new Date(),
       endDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
       role: "Python Support",
