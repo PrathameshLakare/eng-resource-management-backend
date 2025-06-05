@@ -114,7 +114,7 @@ async function seed() {
     {
       engineerId: eng2._id,
       projectId: project2._id,
-      allocationPercentage: 20,
+      allocationPercentage: 50,
       startDate: new Date(),
       endDate: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000),
       role: "Backend Developer",
