@@ -6,13 +6,14 @@ const bcrypt = require("bcrypt");
 const cors = require("cors");
 const { initializeDatabase } = require("./db/db.connect");
 const { verifyToken } = require("./middleware/verifyToken");
-const User = require("./models/User");
-const Project = require("./models/Project");
-const Assignment = require("./models/Assignment");
 
 app.use(express.json());
 app.use(cors({ origin: [process.env.FRONTEND_URL, "http://localhost:5173"] }));
 initializeDatabase();
+
+const User = require("./models/User");
+const Project = require("./models/Project");
+const Assignment = require("./models/Assignment");
 
 app.get("/", (req, res) => {
   res.send("API is running");
